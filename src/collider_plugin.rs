@@ -1,5 +1,6 @@
 use bevy::prelude::*;
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ColliderTypes {
     Circle,
     Square,

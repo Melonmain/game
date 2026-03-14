@@ -1,12 +1,31 @@
 use bevy::prelude::*;
 
+use crate::collider_plugin::{Collider, ColliderTypes};
+
 const PLATFORM_SPEED: f32 = 850.0;
 const PLATFORM_WIDTH: f32 = 250.0;
 const PLATFORM_HEIGHT: f32 = 30.0;
 const PLATFORM_POSITION_Y: f32 = 7.0 / 8.0;
 
 #[derive(Component)]
-struct Platform;
+struct IsPlatform;
+
+#[derive(Bundle)]
+struct Platform {
+    is_platform: IsPlatform,
+    transform: Transform,
+    collider: Collider,
+}
+
+impl Platform {
+    pub fn new(position: [f32; 3]) -> Self {
+        Self {
+            is_platform: IsPlatform,
+            transform: Transform::from_xyz(position[0], position[1], position[2]),
+            collider: Collider::new(ColliderTypes::Rectangle, PLATFORM_WIDTH, PLATFORM_HEIGHT),
+        }
+    }
+}
 
 pub struct PlatformPlugin;
 
@@ -33,13 +52,12 @@ fn setup(
     commands.spawn((
         Mesh2d(meshes.add(Rectangle::new(PLATFORM_WIDTH, PLATFORM_HEIGHT))),
         MeshMaterial2d(materials.add(Color::WHITE)),
-        Platform,
-        Transform::from_xyz(0.0, platform_y, 0.0),
+        Platform::new([0.0, platform_y, 0.0]),
     ));
 }
 
 fn move_platform(
-    mut platform_query: Query<&mut Transform, With<Platform>>,
+    mut platform_query: Query<&mut Transform, With<IsPlatform>>,
     window_query: Query<&Window>,
     keyboard_input: Res<ButtonInput<KeyCode>>,
     time: Res<Time>,
