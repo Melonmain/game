@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{collider_plugin::{Collider, ColliderTypes}, movement_plugin::{BounceOnBorder, LinearMovement, Velocity}};
+use crate::{collider_plugin::{Collider, ColliderTypes}, movement_plugin::{BounceOnBorder, LinearMovement, Velocity}, platform_plugin::IsPlatform};
 
 const BALL_SPEED: f32 = 800.0;
 const BALL_SIZE: f32 = 15.0;
@@ -61,14 +61,14 @@ fn setup(
 fn check_collisions(
     mut commands: Commands,
     mut balls: Query<(&Transform, &Collider, &mut Velocity), With<IsBall>>,
-    objects: Query<(Entity, &Transform, &Collider), Without<IsBall>>,
+    objects: Query<(Entity, &Transform, &Collider, Option<&IsPlatform>), Without<IsBall>>,
 ) {
     for (ball_transform, ball_collider, mut ball_velocity_obj) in &mut balls {
         let ball_pos = ball_transform.translation.truncate(); // Use Vec2 for 2D math
         let radius = ball_collider.width; // "width" is our radius
         let mut ball_velocity = ball_velocity_obj.velocity;
 
-        for (object_entity, object_transform, object_collider) in &objects {
+        for (object_entity, object_transform, object_collider, is_player) in &objects {
             let obj_pos = object_transform.translation.truncate();
 
             if object_collider.collider_type == ColliderTypes::Circle {
@@ -85,7 +85,9 @@ fn check_collisions(
                     ball_velocity.y -= 2.0 * dot * normal.y;
 
                     ball_velocity_obj.velocity = ball_velocity.normalize();
-                    commands.entity(object_entity).despawn();
+                    if is_player.is_none() {
+                        commands.entity(object_entity).despawn();
+                    }
                     break;
                 }
             } else if object_collider.collider_type == ColliderTypes::Rectangle {
@@ -115,7 +117,9 @@ fn check_collisions(
                         ball_velocity.y *= -1.0;
                     }
                     ball_velocity_obj.velocity = ball_velocity.normalize();
-                    commands.entity(object_entity).despawn();
+                    if is_player.is_none() {
+                        commands.entity(object_entity).despawn();
+                    }
                     break;
                 }
             }

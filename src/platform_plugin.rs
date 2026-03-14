@@ -8,7 +8,7 @@ const PLATFORM_HEIGHT: f32 = 30.0;
 const PLATFORM_POSITION_Y: f32 = 7.0 / 8.0;
 
 #[derive(Component)]
-struct IsPlatform;
+pub struct IsPlatform;
 
 #[derive(Bundle)]
 struct Platform {
