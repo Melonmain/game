@@ -36,9 +36,9 @@ impl Powerup {
 
 pub fn spawn_powerup(
     position: Vec3,
-    mut commands: &mut Commands,
-    mut meshes: &mut Assets<Mesh>,
-    mut materials: &mut Assets<ColorMaterial>,
+    commands: &mut Commands,
+    meshes: &mut Assets<Mesh>,
+    materials: &mut Assets<ColorMaterial>,
 ) {
     commands.spawn((
         Powerup::new(position),

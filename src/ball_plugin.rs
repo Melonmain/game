@@ -69,9 +69,9 @@ fn setup(
 
 pub fn spawn_ball(
     position: Vec3,
-    mut commands: &mut Commands,
-    mut meshes: &mut Assets<Mesh>,
-    mut materials: &mut Assets<ColorMaterial>,
+    commands: &mut Commands,
+    meshes: &mut Assets<Mesh>,
+    materials: &mut Assets<ColorMaterial>,
 ) {
     let mut rng = rand::thread_rng();
     let velocity: Vec2 = Vec2::new(rng.gen_range(-1.0..=1.0), rng.gen_range(-1.0..=1.0));
