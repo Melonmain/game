@@ -19,6 +19,7 @@ struct Block {
     transform: Transform,
     rigid_body: RigidBody,
     collider: Collider,
+    collission_layer: CollisionLayers,
 }
 
 impl Block {
@@ -28,6 +29,7 @@ impl Block {
             transform: Transform::from_xyz(position[0], position[1], position[2]),
             rigid_body: RigidBody::Kinematic,
             collider: Collider::rectangle(BLOCK_WIDTH, BLOCK_HEIGHT),
+            collission_layer: CollisionLayers::new(0b0010, 0b0010),
         }
     }
 }

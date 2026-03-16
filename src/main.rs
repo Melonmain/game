@@ -6,6 +6,7 @@ use avian2d::prelude::*;
 mod ball_plugin;
 mod block_plugin;
 mod platform_plugin;
+mod powerup_plugin;
 
 use ball_plugin::BallPlugin;
 use block_plugin::BlockPlugin;
