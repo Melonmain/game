@@ -1,6 +1,5 @@
 use bevy::prelude::*;
-
-use crate::collider_plugin::{Collider, ColliderTypes};
+use avian2d::prelude::*;
 
 const PLATFORM_SPEED: f32 = 850.0;
 const PLATFORM_WIDTH: f32 = 250.0;
@@ -14,6 +13,7 @@ pub struct IsPlatform;
 struct Platform {
     is_platform: IsPlatform,
     transform: Transform,
+    rigid_body: RigidBody,
     collider: Collider,
 }
 
@@ -22,7 +22,8 @@ impl Platform {
         Self {
             is_platform: IsPlatform,
             transform: Transform::from_xyz(position[0], position[1], position[2]),
-            collider: Collider::new(ColliderTypes::Rectangle, PLATFORM_WIDTH, PLATFORM_HEIGHT),
+            rigid_body: RigidBody::Kinematic,
+            collider: Collider::rectangle(PLATFORM_WIDTH, PLATFORM_HEIGHT),
         }
     }
 }

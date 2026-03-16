@@ -1,7 +1,5 @@
 use bevy::prelude::*;
-
-use crate::collider_plugin::Collider;
-use crate::collider_plugin::ColliderTypes;
+use avian2d::prelude::*;
 
 const BLOCK_HEIGHT: f32 = 50.0;
 const BLOCK_WIDTH: f32 = 100.0;
@@ -13,12 +11,13 @@ const DEFAULT_ROWS_OF_BLOCKS: i8 = 5;
 const BLOCK_DELAY: f32 = 15.0;
 
 #[derive(Component)]
-struct IsBlock;
+pub struct IsBlock;
 
 #[derive(Bundle)]
 struct Block {
     is_block: IsBlock,
     transform: Transform,
+    rigid_body: RigidBody,
     collider: Collider,
 }
 
@@ -27,7 +26,8 @@ impl Block {
         Self {
             is_block: IsBlock,
             transform: Transform::from_xyz(position[0], position[1], position[2]),
-            collider: Collider::new(ColliderTypes::Rectangle, BLOCK_WIDTH, BLOCK_HEIGHT),
+            rigid_body: RigidBody::Kinematic,
+            collider: Collider::rectangle(BLOCK_WIDTH, BLOCK_HEIGHT),
         }
     }
 }
