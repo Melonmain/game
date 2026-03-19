@@ -16,6 +16,7 @@ use platform_plugin::PlatformPlugin;
 fn main() {
     App::new()
         .add_plugins((DefaultPlugins, PhysicsPlugins::default()))
+        //.add_plugins(PhysicsDebugPlugin::default())
         .add_plugins(BallPlugin)
         .add_plugins(BlockPlugin)
         .add_plugins(PlatformPlugin)
